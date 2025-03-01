@@ -14,7 +14,7 @@ export default function App() {
        <SafeAreaView style={stylesGlobal.safeAreaContainer}>
         <StatusBar style="auto"/>
 
-        <Stack.Navigator>
+        <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Home" component={HomePage} options={{ title: 'Home' }} />
         </Stack.Navigator>
         <HomePage/>

@@ -5,7 +5,11 @@ import stylesHP from "../styles components/stylesHP";
 const HomePage = () => {
     return (
         <View style={stylesHP.mainContainer}>
-            <ScrollView style={stylesHP.scrollContainer}></ScrollView>
+            <ScrollView style={stylesHP.scrollContainer}>
+                <Text style={stylesHP.headerText}>
+                    THIS IS THE HOMEPAGE
+                </Text>
+            </ScrollView>
         </View>
     );
 };
