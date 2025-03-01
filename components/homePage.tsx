@@ -6,9 +6,22 @@ const HomePage = () => {
     return (
         <View style={stylesHP.mainContainer}>
             <ScrollView style={stylesHP.scrollContainer}>
-                <Text style={stylesHP.headerText}>
-                    THIS IS THE HOMEPAGE
-                </Text>
+                <View>
+                    <Text style={stylesHP.headerText}>
+                        THIS IS THE HOMEPAGE
+                    </Text>
+                </View>
+
+                <View>
+                    CONTENTS SECTION
+                </View>
+
+                <View style={stylesHP.taskBar}>
+                    <Text>
+                        PLACEHOLDER
+                    </Text>
+                </View>
+                
             </ScrollView>
         </View>
     );

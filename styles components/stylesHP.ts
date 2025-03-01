@@ -17,6 +17,14 @@ const stylesHP = StyleSheet.create({
     headerText: {
         color: 'pink',
         fontSize: 100,
+    },
+
+    taskBar: {
+        backgroundColor: 'black',
+        width: '100%',
+        flex: 1,
+        height: 300,
+        borderRadius: 20,
     }
 });
 
