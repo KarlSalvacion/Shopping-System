@@ -1,5 +1,5 @@
-import React from "react";
-import { View, Text, FlatList, Pressable } from "react-native";
+import React, { useState, useRef } from "react";
+import { View, Text, FlatList, Pressable, Image } from "react-native";
 import { useCart } from "./cartContext";
 import stylesCP from "../styles components/stylesCP";
 import { useNavigation } from "@react-navigation/native";
@@ -12,46 +12,117 @@ type CartScreenNavigationProp = StackNavigationProp<RootStackParamList, "Cart">;
 const CartScreen = () => {
   const { cart, updateQuantity } = useCart();
   const navigation = useNavigation<CartScreenNavigationProp>();
+  const flatListRef = useRef<FlatList>(null); // Reference to FlatList
+
+  const [selectedItems, setSelectedItems] = useState<string[]>([]);
+
+  const totalPrice = cart
+    .filter((item) => selectedItems.includes(item.id))
+    .reduce((sum, item) => sum + item.price * item.quantity, 0);
+
+  const toggleSelectItem = (id: string) => {
+    setSelectedItems((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    );
+  };
+
+  const toggleSelectAll = () => {
+    if (selectedItems.length === cart.length) {
+      setSelectedItems([]);
+    } else {
+      setSelectedItems(cart.map((item) => item.id));
+    }
+  };
 
   return (
     <View style={stylesCP.cartContainer}>
-      {/* Back Button */}
-      <Pressable style={stylesCP.backButton} onPress={() => navigation.goBack()}>
-        <Ionicons name="arrow-back" size={24} color="white" />
-        <Text style={stylesCP.backButtonText}>Back to Home</Text>
+      {/* Header with Scroll-to-Top */}
+      <Pressable
+        onPress={() => flatListRef.current?.scrollToOffset({ offset: 0, animated: true })}
+        style={stylesCP.headerContainerCP}
+      >
+        <Pressable onPress={() => navigation.navigate("Home")}>
+          <Ionicons name="arrow-back" size={24} color="black" />
+        </Pressable>
+        <Text style={stylesCP.titleTextCP}>My Cart</Text>
       </Pressable>
 
-      <Text style={stylesCP.cartTitle}>Your Cart</Text>
-
-      {/* If cart is empty, show message */}
       {cart.length === 0 ? (
         <Text style={stylesCP.emptyCartText}>No items in your cart.</Text>
       ) : (
         <>
+          {/* Cart List */}
           <FlatList
+            ref={flatListRef} // Attach reference
             data={cart}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (
-              <View style={stylesCP.cartItems}>
-                <Text>{item.name} - ${item.price} x {item.quantity}</Text>
-                
-                <View style={stylesCP.buttonRow}>
-                  <Pressable style={stylesCP.addButton} onPress={() => updateQuantity(item.id, item.quantity + 1)}>
-                    <Text style={stylesCP.buttonText}>+</Text>
-                  </Pressable>
-                  
-                  <Pressable style={stylesCP.removeButton} onPress={() => updateQuantity(item.id, item.quantity - 1)}>
-                    <Text style={stylesCP.buttonText}>-</Text>
-                  </Pressable>
+              <View style={stylesCP.cartItem}>
+                <Pressable onPress={() => toggleSelectItem(item.id)}>
+                  <Ionicons
+                    name={selectedItems.includes(item.id) ? "checkbox" : "square-outline"}
+                    size={24}
+                    color="rgb(29, 18, 71)"
+                  />
+                </Pressable>
+                <Image source={item.image} style={stylesCP.productImage} />
+                <View style={stylesCP.itemDetails}>
+                  <Text style={stylesCP.productTitle}>{item.name}</Text>
+                  <View style={stylesCP.priceQuantityContainer}>
+                    <Text style={stylesCP.productPrice}>
+                      ₱{item.price.toLocaleString(undefined, {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                      })}
+                    </Text>
+                    <View style={stylesCP.quantityAdjuster}>
+                      <Pressable
+                        style={stylesCP.quantityButton}
+                        onPress={() => updateQuantity(item.id, item.quantity - 1)}
+                      >
+                        <Text style={stylesCP.buttonText}>-</Text>
+                      </Pressable>
+                      <Text style={stylesCP.quantityText}>{item.quantity}</Text>
+                      <Pressable
+                        style={stylesCP.quantityButton}
+                        onPress={() => updateQuantity(item.id, item.quantity + 1)}
+                      >
+                        <Text style={stylesCP.buttonText}>+</Text>
+                      </Pressable>
+                    </View>
+                  </View>
                 </View>
               </View>
             )}
           />
 
-          {/* Checkout Button */}
-          <Pressable style={stylesCP.checkoutButton} onPress={() => navigation.navigate("Checkout")}>
-            <Text style={stylesCP.buttonText}>Proceed to Checkout</Text>
-          </Pressable>
+          <View style={stylesCP.bottomBar}>
+            <Pressable style={stylesCP.selectAllContainer} onPress={toggleSelectAll}>
+              <Ionicons
+                name={selectedItems.length === cart.length ? "checkbox" : "square-outline"}
+                size={24}
+                color="rgb(29, 18, 71)"
+              />
+              <Text style={stylesCP.selectAllText}>All</Text>
+            </Pressable>
+            <View style={stylesCP.bottomBarRight}>
+              <Text style={stylesCP.totalPriceText}>
+                Total: ₱{totalPrice.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                })}
+              </Text>
+              <Pressable
+                style={[stylesCP.checkoutButton, selectedItems.length === 0 && stylesCP.disabledButton]}
+                onPress={() => navigation.navigate("Checkout", { selectedItems: selectedItems })}
+                disabled={selectedItems.length === 0}
+              >
+                <Text style={stylesCP.buttonText}>
+                  Check Out ({selectedItems.length})
+                </Text>
+              </Pressable>
+            </View>
+          </View>
         </>
       )}
     </View>
