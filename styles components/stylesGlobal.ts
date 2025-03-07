@@ -26,7 +26,7 @@ const stylesGlobal = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
         marginTop: 30,
-        width: 50, // Ensures a consistent size
+        width: 50,
         height: 50,
     },
 

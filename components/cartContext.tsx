@@ -15,7 +15,6 @@
   export const CartProvider = ({ children }: { children: ReactNode }) => {
     const [cart, setCart] = useState<CartItem[]>([]);
 
-    // Updated addToCart to accept an optional quantity
     const addToCart = (product: Product, quantity: number = 1) => {
       setCart((prevCart) => {
         const existingItem = prevCart.find((item) => item.id === product.id);

@@ -42,7 +42,7 @@ const CheckoutScreen = ({ route }: { route: CheckoutScreenRouteProp }) => {
         <Text style={stylesCHP.emptyCartText}>No items to checkout.</Text>
       ) : (
         <FlatList
-          ref={flatListRef} // Assign the ref to FlatList
+          ref={flatListRef}
           data={selectedCartItems}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
@@ -76,7 +76,7 @@ const CheckoutScreen = ({ route }: { route: CheckoutScreenRouteProp }) => {
               style={stylesCHP.checkoutButton}
               onPress={() => {
                 addOrder(selectedCartItems, total);
-                setModalVisible(true); // Show modal
+                setModalVisible(true);
               }}
             >
               <Text style={stylesCHP.buttonText}>Confirm Purchase ({selectedCartItems.length})</Text>
@@ -85,7 +85,6 @@ const CheckoutScreen = ({ route }: { route: CheckoutScreenRouteProp }) => {
         </View>
       )}
 
-      {/* Checkout Success Modal */}
       <Modal transparent={true} visible={modalVisible} animationType="fade">
         <View style={stylesCHP.modalBackground}>
           <View style={stylesCHP.modalContainer}>
