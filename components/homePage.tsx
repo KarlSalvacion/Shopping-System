@@ -123,7 +123,6 @@ const HomeScreen = () => {
 
     return (
         <View style={stylesHP.homepageContainer}>
-            {/* Pressable Header to Scroll to Top */}
             <Pressable style={stylesHP.headerContainer} onPress={scrollToTop}>
                 <Text style={stylesHP.brandTitleText}>Declutter</Text>
                 <Pressable style={stylesHP.cartIconContainer} onPress={() => navigation.navigate("Cart")}>
@@ -146,7 +145,6 @@ const HomeScreen = () => {
                 showsVerticalScrollIndicator={false}
             />
 
-            {/* Image Preview Modal */}
             {modalVisible && (
                 <View style={stylesHP.modalBackground}>
                     <Pressable style={stylesHP.modalCloseArea} onPress={closeImageModal} />
@@ -159,7 +157,6 @@ const HomeScreen = () => {
                 </View>
             )}
 
-            {/* Cart Notification Modal */}
             {cartModalVisible && (
                 <Animated.View style={[stylesHP.cartModal, { opacity: cartModalAnim }]}>
                     <FontAwesome5 name="check-circle" style={stylesHP.modalIconCheck} />

@@ -12,7 +12,7 @@ type CartScreenNavigationProp = StackNavigationProp<RootStackParamList, "Cart">;
 const CartScreen = () => {
   const { cart, updateQuantity } = useCart();
   const navigation = useNavigation<CartScreenNavigationProp>();
-  const flatListRef = useRef<FlatList>(null); // Reference to FlatList
+  const flatListRef = useRef<FlatList>(null);
 
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
 
@@ -36,7 +36,6 @@ const CartScreen = () => {
 
   return (
     <View style={stylesCP.cartContainer}>
-      {/* Header with Scroll-to-Top */}
       <Pressable
         onPress={() => flatListRef.current?.scrollToOffset({ offset: 0, animated: true })}
         style={stylesCP.headerContainerCP}
@@ -51,9 +50,8 @@ const CartScreen = () => {
         <Text style={stylesCP.emptyCartText}>No items in your cart.</Text>
       ) : (
         <>
-          {/* Cart List */}
           <FlatList
-            ref={flatListRef} // Attach reference
+            ref={flatListRef}
             data={cart}
             keyExtractor={(item) => item.id}
             renderItem={({ item }) => (

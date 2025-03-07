@@ -73,7 +73,7 @@ const stylesCP = StyleSheet.create({
   },
 
   productPrice: {
-    fontSize: 16, // Reduced size slightly
+    fontSize: 16,
     fontWeight: "bold",
     color: "rgb(43, 30, 98)",
   },

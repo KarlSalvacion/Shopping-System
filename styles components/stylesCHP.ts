@@ -86,7 +86,7 @@ const stylesCHP = StyleSheet.create({
     borderTopWidth: 1,
     borderColor: "#ddd",
     height: 120,
-    justifyContent: "flex-start", // Align contents at the top
+    justifyContent: "flex-start",
   },
   
   bottomBarContents: {
@@ -126,12 +126,11 @@ const stylesCHP = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: "rgba(0, 0, 0, 0.5)", // Semi-transparent black
+    backgroundColor: "rgba(0, 0, 0, 0.5)",
     justifyContent: "center",
     alignItems: "center",
   },
 
-  // Success Modal Container
   modalContainer: {
     width: 250,
     height: 180,

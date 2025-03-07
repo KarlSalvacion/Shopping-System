@@ -6,11 +6,10 @@ import { Ionicons } from "@expo/vector-icons";
 
 const OrdersScreen = () => {
   const { orders, cancelOrder } = useOrders();
-  const [isModalVisible, setIsModalVisible] = useState(false); // State for modal visibility
-  const [orderToCancel, setOrderToCancel] = useState<string | null>(null); // Order ID to cancel
-  const flatListRef = useRef<FlatList>(null); // Reference for FlatList
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [orderToCancel, setOrderToCancel] = useState<string | null>(null);
+  const flatListRef = useRef<FlatList>(null);
 
-  // Scroll to the top when the header is pressed
   const scrollToTop = () => {
     if (flatListRef.current) {
       flatListRef.current.scrollToOffset({ offset: 0, animated: true });
@@ -19,19 +18,18 @@ const OrdersScreen = () => {
 
   const showCancelModal = (orderId: string) => {
     setOrderToCancel(orderId);
-    setIsModalVisible(true); // Show modal
+    setIsModalVisible(true);
   };
 
   const handleCancelOrder = () => {
     if (orderToCancel) {
-      cancelOrder(orderToCancel); // Cancel order with the provided order ID
-      setIsModalVisible(false); // Hide modal after cancelling
+      cancelOrder(orderToCancel);
+      setIsModalVisible(false); 
     }
   };
 
   return (
     <View style={stylesOP.ordersContainer}>
-      {/* Pressable Header for Scrolling to Top */}
       <Pressable style={stylesOP.orderHeaderContainer} onPress={scrollToTop}>
         <Text style={stylesOP.orderHeaderTitle}>My Orders</Text>
       </Pressable>
@@ -40,7 +38,7 @@ const OrdersScreen = () => {
         <Text style={stylesOP.emptyOrderText}>No orders yet.</Text>
       ) : (
         <FlatList
-          ref={flatListRef} // Assign ref to FlatList
+          ref={flatListRef}
           data={orders}
           keyExtractor={(order) => order.id}
           showsVerticalScrollIndicator={false}
@@ -83,7 +81,7 @@ const OrdersScreen = () => {
                     </Text>
                     <Pressable
                         style={stylesOP.cancelButton}
-                        onPress={() => showCancelModal(item.id)} // Show modal on cancel button press
+                        onPress={() => showCancelModal(item.id)}
                     >
                         <Text style={stylesOP.buttonText}>Cancel Order</Text>
                     </Pressable>
@@ -93,7 +91,6 @@ const OrdersScreen = () => {
         />
       )}
 
-      {/* Modal for Cancel Confirmation */}
       <Modal transparent={true} visible={isModalVisible} animationType="fade">
         <View style={stylesOP.modalBackground}>
           <View style={stylesOP.modalContainer}>
@@ -101,13 +98,13 @@ const OrdersScreen = () => {
             <View style={stylesOP.yesNoButtons}>
                 <Pressable
                     style={stylesOP.modalButton}
-                    onPress={handleCancelOrder} // Proceed with order cancellation
+                    onPress={handleCancelOrder}
                 >
                     <Text style={stylesOP.modalButtonText}>Yes</Text>
                 </Pressable>
                 <Pressable
                     style={stylesOP.modalButton}
-                    onPress={() => setIsModalVisible(false)} // Close modal without action
+                    onPress={() => setIsModalVisible(false)}
                 >
                     <Text style={stylesOP.modalButtonText}>No</Text>
                 </Pressable>

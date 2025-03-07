@@ -17,7 +17,6 @@ import { FontAwesome, Entypo, MaterialIcons } from "@expo/vector-icons";
 const Stack = createStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<RootStackParamList>();
 
-// Bottom Tab Navigator
 const BottomTabNavigator = () => {
   return (
     <Tab.Navigator
@@ -49,7 +48,6 @@ const BottomTabNavigator = () => {
   );
 };
 
-// Stack Navigator
 const AppNavigator = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>

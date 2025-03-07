@@ -56,7 +56,7 @@ const stylesHP = StyleSheet.create({
     flex: 1,
     backgroundColor: "#f8f9fa",
     margin: 5,
-    padding: 0, // Remove extra padding to maximize space
+    padding: 0,
     borderRadius: 10,
     alignItems: "center",
     shadowColor: "#000",
@@ -67,7 +67,7 @@ const stylesHP = StyleSheet.create({
     elevation: 3,
     borderWidth: 1,
     borderColor: "#ddd",
-    overflow: "hidden", // Ensures the image and content fit neatly
+    overflow: "hidden",
   },
 
   detailsContainer: {
@@ -97,7 +97,7 @@ const stylesHP = StyleSheet.create({
   },
 
   filledStarIcon: {
-      color: "rgb(65, 53, 137)", // Gold color for a full star
+      color: "rgb(65, 53, 137)",
       fontSize: 16,
   },
 
@@ -204,9 +204,9 @@ const stylesHP = StyleSheet.create({
   },
 
   cartModalText: {
-      color: "white",
-      fontSize: 16,
-      fontWeight: "bold",
+    color: "white",
+    fontSize: 16,
+    fontWeight: "bold",
   },
 
   cartModalSubtext: {
