@@ -27,7 +27,7 @@ const stylesHP = StyleSheet.create({
 
   brandTitleText: {
     fontSize: 30,
-    fontFamily: 'LexendB'
+    fontWeight: 'bold',
   },
 
   cartIconContainer: {
@@ -150,7 +150,7 @@ const stylesHP = StyleSheet.create({
 
   modalBackground: {
     flex: 1,
-    backgroundColor: "rgba(0,0,0,0.8)",
+    backgroundColor: "rgba(0, 0, 0, 0.8)",
     justifyContent: "center",
     alignItems: "center",
     position: "absolute",

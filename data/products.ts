@@ -24,7 +24,7 @@ export const products: Product[] = [
   {
     id: "3",
     name: "New Balance 1906R 'Silver Metallic Black'",
-    price: 11500,
+    price: 9500,
     rating: 5,
     image: require("../assets/shoes2-NB.jpg"),
   },

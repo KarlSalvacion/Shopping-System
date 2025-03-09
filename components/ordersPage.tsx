@@ -40,6 +40,7 @@ const OrdersScreen = () => {
         <FlatList
           ref={flatListRef}
           data={orders}
+          contentContainerStyle={{paddingBottom: 10,}}
           keyExtractor={(order) => order.id}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => (
