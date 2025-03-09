@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react"; // Import useRef
+import React, { useState, useRef } from "react";
 import { View, Text, Pressable, Image, FlatList, Modal } from "react-native";
 import { useCart } from "./cartContext";
 import { useOrders } from "./orderContext";
@@ -12,15 +12,13 @@ type CheckoutScreenNavigationProp = StackNavigationProp<RootStackParamList, "Che
 type CheckoutScreenRouteProp = RouteProp<RootStackParamList, "Checkout">;
 
 const CheckoutScreen = ({ route }: { route: CheckoutScreenRouteProp }) => {
-  const { cart, clearCart } = useCart();
+  const { cart, removeItems } = useCart(); // Use the updated function
   const { addOrder } = useOrders();
   const navigation = useNavigation<CheckoutScreenNavigationProp>();
   const [modalVisible, setModalVisible] = useState(false);
-
   const flatListRef = useRef<FlatList<any>>(null);
 
   const { selectedItems } = route.params;
-
   const selectedCartItems = cart.filter((item) => selectedItems.includes(item.id));
 
   const total = selectedCartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -44,6 +42,7 @@ const CheckoutScreen = ({ route }: { route: CheckoutScreenRouteProp }) => {
         <FlatList
           ref={flatListRef}
           data={selectedCartItems}
+          contentContainerStyle={{ paddingBottom: 10 }}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <View style={stylesCHP.checkOutItem}>
@@ -76,6 +75,7 @@ const CheckoutScreen = ({ route }: { route: CheckoutScreenRouteProp }) => {
               style={stylesCHP.checkoutButton}
               onPress={() => {
                 addOrder(selectedCartItems, total);
+                removeItems(selectedCartItems.map(item => item.id)); // Only remove selected items
                 setModalVisible(true);
               }}
             >
@@ -94,7 +94,6 @@ const CheckoutScreen = ({ route }: { route: CheckoutScreenRouteProp }) => {
               style={stylesCHP.okButton}
               onPress={() => {
                 setModalVisible(false);
-                clearCart();
                 navigation.reset({
                   index: 0,
                   routes: [{ name: "Home" }],

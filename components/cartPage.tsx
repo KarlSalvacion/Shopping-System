@@ -10,11 +10,12 @@ import { Ionicons } from "@expo/vector-icons";
 type CartScreenNavigationProp = StackNavigationProp<RootStackParamList, "Cart">;
 
 const CartScreen = () => {
-  const { cart, updateQuantity } = useCart();
+  const { cart, updateQuantity, removeItems } = useCart();
   const navigation = useNavigation<CartScreenNavigationProp>();
   const flatListRef = useRef<FlatList>(null);
 
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
+  const [isEditMode, setIsEditMode] = useState(false);
 
   const totalPrice = cart
     .filter((item) => selectedItems.includes(item.id))
@@ -34,17 +35,23 @@ const CartScreen = () => {
     }
   };
 
+  const handleDelete = () => {
+    removeItems(selectedItems);
+    setSelectedItems([]);
+  };
+
   return (
     <View style={stylesCP.cartContainer}>
-      <Pressable
-        onPress={() => flatListRef.current?.scrollToOffset({ offset: 0, animated: true })}
-        style={stylesCP.headerContainerCP}
-      >
+      {/* Header with My Cart and Edit button */}
+      <View style={stylesCP.headerContainerCP}>
         <Pressable onPress={() => navigation.navigate("Home")}>
           <Ionicons name="arrow-back" size={24} color="black" />
         </Pressable>
         <Text style={stylesCP.titleTextCP}>My Cart</Text>
-      </Pressable>
+        <Pressable onPress={() => setIsEditMode(!isEditMode)} style={stylesCP.editButton}>
+          <Text style={stylesCP.editButtonText}>{isEditMode ? "Done" : "Edit"}</Text>
+        </Pressable>
+      </View>
 
       {cart.length === 0 ? (
         <Text style={stylesCP.emptyCartText}>No items in your cart.</Text>
@@ -54,6 +61,7 @@ const CartScreen = () => {
             ref={flatListRef}
             data={cart}
             keyExtractor={(item) => item.id}
+            contentContainerStyle={{ paddingBottom: 90 }}
             renderItem={({ item }) => (
               <View style={stylesCP.cartItem}>
                 <Pressable onPress={() => toggleSelectItem(item.id)}>
@@ -73,21 +81,21 @@ const CartScreen = () => {
                         maximumFractionDigits: 2,
                       })}
                     </Text>
-                    <View style={stylesCP.quantityAdjuster}>
-                      <Pressable
-                        style={stylesCP.quantityButton}
-                        onPress={() => updateQuantity(item.id, item.quantity - 1)}
-                      >
-                        <Text style={stylesCP.buttonText}>-</Text>
-                      </Pressable>
-                      <Text style={stylesCP.quantityText}>{item.quantity}</Text>
-                      <Pressable
-                        style={stylesCP.quantityButton}
-                        onPress={() => updateQuantity(item.id, item.quantity + 1)}
-                      >
-                        <Text style={stylesCP.buttonText}>+</Text>
-                      </Pressable>
-                    </View>
+                      <View style={stylesCP.quantityAdjuster}>
+                        <Pressable
+                          style={stylesCP.quantityButton}
+                          onPress={() => updateQuantity(item.id, item.quantity - 1)}
+                        >
+                          <Text style={stylesCP.buttonText}>-</Text>
+                        </Pressable>
+                        <Text style={stylesCP.quantityText}>{item.quantity}</Text>
+                        <Pressable
+                          style={stylesCP.quantityButton}
+                          onPress={() => updateQuantity(item.id, item.quantity + 1)}
+                        >
+                          <Text style={stylesCP.buttonText}>+</Text>
+                        </Pressable>
+                      </View>
                   </View>
                 </View>
               </View>
@@ -104,21 +112,39 @@ const CartScreen = () => {
               <Text style={stylesCP.selectAllText}>All</Text>
             </Pressable>
             <View style={stylesCP.bottomBarRight}>
-              <Text style={stylesCP.totalPriceText}>
-                Total: ₱{totalPrice.toLocaleString(undefined, {
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                })}
-              </Text>
-              <Pressable
-                style={[stylesCP.checkoutButton, selectedItems.length === 0 && stylesCP.disabledButton]}
-                onPress={() => navigation.navigate("Checkout", { selectedItems: selectedItems })}
-                disabled={selectedItems.length === 0}
-              >
-                <Text style={stylesCP.buttonText}>
-                  Check Out ({selectedItems.length})
-                </Text>
-              </Pressable>
+              {isEditMode ? (
+                <Pressable
+                  style={[
+                    stylesCP.deleteButton,
+                    selectedItems.length === 0 && stylesCP.disabledButton,
+                  ]}
+                  onPress={handleDelete}
+                  disabled={selectedItems.length === 0}
+                >
+                  <Text style={stylesCP.buttonText}>Delete ({selectedItems.length})</Text>
+                </Pressable>
+              ) : (
+                <>
+                  <Text style={stylesCP.totalPriceText}>
+                    Total: ₱{totalPrice.toLocaleString(undefined, {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2,
+                    })}
+                  </Text>
+                  <Pressable
+                    style={[
+                      stylesCP.checkoutButton,
+                      selectedItems.length === 0 && stylesCP.disabledButton,
+                    ]}
+                    onPress={() =>
+                      navigation.navigate("Checkout", { selectedItems: selectedItems })
+                    }
+                    disabled={selectedItems.length === 0}
+                  >
+                    <Text style={stylesCP.buttonText}>Check Out ({selectedItems.length})</Text>
+                  </Pressable>
+                </>
+              )}
             </View>
           </View>
         </>

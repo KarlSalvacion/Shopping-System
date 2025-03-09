@@ -155,6 +155,33 @@ const stylesCP = StyleSheet.create({
     fontSize: 16,
     fontWeight: 700,
   },
+
+  editButton: {
+    marginLeft: "auto",
+    padding: 5,
+    backgroundColor: "transparent",
+  },
+
+  editButtonText: {
+    justifyContent: 'center',
+    alignItems: 'center',
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "rgb(43, 30, 98)",
+  },
+
+  deleteButton: {
+    backgroundColor: "rgb(109, 8, 38)",
+    paddingVertical: 15,
+    paddingHorizontal: 20,
+    borderRadius: 10,
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+  },
+
+  
 });
 
 export default stylesCP;
