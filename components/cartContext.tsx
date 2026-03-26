@@ -1,13 +1,13 @@
 import React, { createContext, useState, useContext, ReactNode } from "react";
 import { Product } from "../data/products";
 
-type CartItem = Product & { quantity: number };
+export type CartItem = Product & { quantity: number };
 
 interface CartContextProps {
   cart: CartItem[];
   addToCart: (product: Product, quantity?: number) => void;
   updateQuantity: (id: string, quantity: number) => void;
-  removeItems: (checkedOutItemIds: string[]) => void; // New function
+  removeItems: (checkedOutItemIds: string[]) => void;
 }
 
 const CartContext = createContext<CartContextProps | undefined>(undefined);

@@ -1,18 +1,22 @@
 import React, { useState, useRef } from "react";
 import { View, Text, FlatList, Pressable, Image } from "react-native";
-import { useCart } from "./cartContext";
+import { useCart, CartItem } from "./cartContext";
 import stylesCP from "../styles components/stylesCP";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, CompositeNavigationProp } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { RootStackParamList } from "./navigationTypes";
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
+import { RootStackParamList, BottomTabParamList } from "./navigationTypes";
 import { Ionicons } from "@expo/vector-icons";
 
-type CartScreenNavigationProp = StackNavigationProp<RootStackParamList, "Cart">;
+type CartScreenNavigationProp = CompositeNavigationProp<
+  BottomTabNavigationProp<BottomTabParamList, "Cart">,
+  StackNavigationProp<RootStackParamList>
+>;
 
 const CartScreen = () => {
   const { cart, updateQuantity, removeItems } = useCart();
   const navigation = useNavigation<CartScreenNavigationProp>();
-  const flatListRef = useRef<FlatList>(null);
+  const flatListRef = useRef<FlatList<CartItem>>(null);
 
   const [selectedItems, setSelectedItems] = useState<string[]>([]);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -42,7 +46,6 @@ const CartScreen = () => {
 
   return (
     <View style={stylesCP.cartContainer}>
-      {/* Header with My Cart and Edit button */}
       <View style={stylesCP.headerContainerCP}>
         <Pressable onPress={() => navigation.navigate("Home")}>
           <Ionicons name="arrow-back" size={24} color="black" />
@@ -141,6 +144,7 @@ const CartScreen = () => {
                     }
                     disabled={selectedItems.length === 0}
                   >
+                    
                     <Text style={stylesCP.buttonText}>Check Out ({selectedItems.length})</Text>
                   </Pressable>
                 </>

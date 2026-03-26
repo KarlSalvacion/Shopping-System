@@ -1,23 +1,15 @@
 import React, { useState, useRef } from "react";
 import { View, Text, FlatList, Image, Pressable, Animated } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { products } from "../data/products";
+import { products, Product } from "../data/products";
 import { useCart } from "./cartContext";
 import stylesHP from "../styles components/stylesHP";
 import { AntDesign, Ionicons, FontAwesome5 } from "@expo/vector-icons";
-import { RootStackParamList } from "./navigationTypes";
-import { StackNavigationProp } from "@react-navigation/stack";
+import { BottomTabParamList } from "./navigationTypes";
+import { BottomTabNavigationProp } from "@react-navigation/bottom-tabs";
 import { useFonts } from "expo-font";
 
-type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, "Home">;
-
-type Product = {
-    id: string;
-    name: string;
-    price: number;
-    rating: number;
-    image: number;
-};
+type HomeScreenNavigationProp = BottomTabNavigationProp<BottomTabParamList, "Home">;
 
 const HomeScreen = () => {
     const navigation = useNavigation<HomeScreenNavigationProp>();
