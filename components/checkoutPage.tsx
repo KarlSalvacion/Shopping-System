@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import { View, Text, Pressable, Image, FlatList, Modal } from "react-native";
-import { useCart } from "./cartContext";
+import { useCart, CartItem } from "./cartContext";
 import { useOrders } from "./orderContext";
 import stylesCHP from "../styles components/stylesCHP";
 import { useNavigation, RouteProp } from "@react-navigation/native";
@@ -12,11 +12,11 @@ type CheckoutScreenNavigationProp = StackNavigationProp<RootStackParamList, "Che
 type CheckoutScreenRouteProp = RouteProp<RootStackParamList, "Checkout">;
 
 const CheckoutScreen = ({ route }: { route: CheckoutScreenRouteProp }) => {
-  const { cart, removeItems } = useCart(); // Use the updated function
+  const { cart, removeItems } = useCart();
   const { addOrder } = useOrders();
   const navigation = useNavigation<CheckoutScreenNavigationProp>();
   const [modalVisible, setModalVisible] = useState(false);
-  const flatListRef = useRef<FlatList<any>>(null);
+  const flatListRef = useRef<FlatList<CartItem>>(null);
 
   const { selectedItems } = route.params;
   const selectedCartItems = cart.filter((item) => selectedItems.includes(item.id));

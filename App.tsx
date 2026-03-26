@@ -1,6 +1,6 @@
 import React from "react";
 import { StatusBar, View } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, RouteProp } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
@@ -10,19 +10,19 @@ import HomeScreen from "./components/homePage";
 import CartScreen from "./components/cartPage";
 import CheckoutScreen from "./components/checkoutPage";
 import OrdersScreen from "./components/ordersPage";
-import { RootStackParamList } from "./components/navigationTypes";
+import { RootStackParamList, BottomTabParamList } from "./components/navigationTypes";
 import stylesGlobal from "./styles components/stylesGlobal";
 import { FontAwesome, Entypo, MaterialIcons } from "@expo/vector-icons";
 
 const Stack = createStackNavigator<RootStackParamList>();
-const Tab = createBottomTabNavigator<RootStackParamList>();
+const Tab = createBottomTabNavigator<BottomTabParamList>();
 
 const BottomTabNavigator = () => {
   return (
-    <Tab.Navigator
-      screenOptions={({ route }) => ({
-        tabBarStyle: route.name === "Checkout" ? { display: "none" } : stylesGlobal.tabBarStyle,
-        tabBarIcon: ({ color, size, focused }) => (
+      <Tab.Navigator
+      screenOptions={({ route }: { route: RouteProp<BottomTabParamList, keyof BottomTabParamList> }) => ({
+        tabBarStyle: stylesGlobal.tabBarStyle,
+        tabBarIcon: ({ color, size, focused }: { color: string; size: number; focused: boolean }) => (
           <View
             style={[stylesGlobal.iconContainer, focused && stylesGlobal.activeIconContainer]}
           >
